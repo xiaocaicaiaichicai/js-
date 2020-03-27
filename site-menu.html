@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+        
+        .app {
+            margin: 4px;
+        }
+        
+        .title {
+            background: #3a9cf8;
+            margin: 0;
+            padding: 10px;
+            cursor: pointer;
+            color: #fff;
+            border-bottom: 1px solid #eeeeee;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .site-menu-sub {
+            padding: 0px;
+            background: #7abbf8;
+            color: #fff;
+        }
+        
+        .site-menu-sub p {
+            border-bottom: 1px #eeeeee solid;
+            margin: 0;
+            padding: 10px;
+        }
+        
+        .sub-menu-enter-active {
+            transition: all .5s linear;
+            max-height: 1000px;
+        }
+        
+        .sub-menu-leave-active {
+            transition: all .4s ease;
+            max-height: 1000px;
+        }
+        
+        .sub-menu-enter,
+        .sub-menu-leave-to {
+            opacity: 0;
+            max-height: 0px;
+        }
+        
+        .left {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            margin-top: -6px;
+        }
+        
+        .left:before,
+        .left:after {
+            position: absolute;
+            content: '';
+            border-top: 6px transparent dashed;
+            border-right: 6px transparent dashed;
+            border-bottom: 6px transparent dashed;
+            border-left: 6px #fff solid;
+        }
+        
+        .left:before {
+            border-left: 6px #fff solid;
+        }
+        
+        .left:after {
+            left: -1px;
+            /*覆盖并错开1px*/
+            border-left: 6px #3a9cf8 solid;
+        }
+        
+        .down {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            margin-top: -4px;
+        }
+        
+        .down:before,
+        .down:after {
+            position: absolute;
+            content: '';
+            border-left: 6px transparent dashed;
+            border-right: 6px transparent dashed;
+            border-bottom: 6px transparent dashed;
+            border-top: 6px #fff solid;
+        }
+        
+        .down:before {
+            border-top: 6px #fff solid;
+        }
+        
+        .down:after {
+            top: -1px;
+            /*覆盖并错开1px*/
+            border-top: 6px #3a9cf8 solid;
+        }
+        
+        [v-cloak] {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app" id="app" v-cloak>
+        <div class="item" v-for="(item,index) in 4">
+            <p class="title" @click="menuClick(index)">列表{{index}}<i :class="[active == index?'down':'left']"></i></p>
+            <transition name="sub-menu" mode="in-out">
+                <div class="site-menu-sub" v-show="active==index">
+                    <p v-for="(items,indexs) in 4" class="site-menu-item">子列表{{index}}-{{indexs}}</p>
+                </div>
+            </transition>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    active: null
+                }
+            },
+            methods: {
+                menuClick(index) {
+                    this.active = this.active == index ? null : index
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
